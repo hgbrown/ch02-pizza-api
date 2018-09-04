@@ -32,7 +32,24 @@ Content-Type: application/json
  });
  %}
 
+### should get 404 if delete fails because no entity with that id exists
+
+DELETE https://17x7s3xxp2.execute-api.us-west-2.amazonaws.com/latest/orders/42
+
+> {%
+ client.test("Failed Request when id not found", function() {
+     client.assert(response.status === 404, "Response status is not 404")
+ });
+ %}
+
+### should get 204 No Content if delete succeeds
+
+DELETE https://17x7s3xxp2.execute-api.us-west-2.amazonaws.com/latest/orders/2
+
+> {%
+ client.test("Successful Request", function() {
+     client.assert(response.status === 204, "Response status is not 204")
+ });
+ %}
+
 ###
-
-
-
