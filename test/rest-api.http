@@ -52,4 +52,30 @@ DELETE https://17x7s3xxp2.execute-api.us-west-2.amazonaws.com/latest/orders/2
  });
  %}
 
+### should get 404 if put fails because no entity with that id exists
+
+PUT https://17x7s3xxp2.execute-api.us-west-2.amazonaws.com/latest/orders/42
+Content-Type: application/json
+
+{}
+
+> {%
+ client.test("Failed Request when id not found", function() {
+     client.assert(response.status === 404, "Response status is not 404")
+ });
+ %}
+
+### should get 200 OK if update succeeds
+
+PUT https://17x7s3xxp2.execute-api.us-west-2.amazonaws.com/latest/orders/2
+Content-Type: application/json
+
+{}
+
+> {%
+ client.test("Successful Request", function() {
+     client.assert(response.status === 200, "Response status is not 200")
+ });
+ %}
+
 ###
