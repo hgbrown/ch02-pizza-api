@@ -1,0 +1,38 @@
+### Should get 400 Bad Request when incorrect parameters are posted
+
+POST https://17x7s3xxp2.execute-api.us-west-2.amazonaws.com/latest/orders
+Content-Type: application/json
+
+{}
+
+> {%
+    client.test("Request failed", function() {
+        client.assert(response.status === 400, "Response status is not 400");
+    });
+ %}
+
+### Should get 201 CREATED when correct parameters are posted
+
+POST https://17x7s3xxp2.execute-api.us-west-2.amazonaws.com/latest/orders
+Content-Type: application/json
+
+{
+  "pizzaId": 2,
+  "address": "7 Hauptville Circle, Constantia, 7806"
+}
+
+> {%
+ client.test("Successful Request", function() {
+     client.assert(response.status === 201, "Response status is not 200")
+ });
+
+  client.test("Successful Request contains expected body", function() {
+     var empty = {};
+     client.assert(JSON.stringify(response.body) === JSON.stringify(empty), "Response body is not what is expected: " + JSON.stringify(response.body))
+ });
+ %}
+
+###
+
+
+
